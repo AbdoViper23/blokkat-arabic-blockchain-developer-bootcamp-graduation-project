@@ -1,6 +1,7 @@
 # ========== Foundry ==========
-/out/
-/lib/      # لو فولدر مكتبات Foundry فقط، اتركه. لو تستخدمه في frontend، شيله من هنا
+/smart-contracts/out/
+/smart-contracts/lib/
+
 
 # ========== General ==========
 .DS_Store
@@ -39,6 +40,6 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 
-# لا تستبعد next-env.d.ts لأنها مهمة لـ Next.js
+
 # next-env.d.ts
 
