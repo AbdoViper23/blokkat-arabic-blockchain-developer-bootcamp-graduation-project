@@ -4,7 +4,7 @@ import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
-import { headers } from 'next/headers' // added
+import { headers } from 'next/headers'
 import ContextProvider from '@/context'
 
 export const metadata: Metadata = {

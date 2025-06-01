@@ -7,12 +7,12 @@ import "./PlateAuction.sol";
 contract Factory{
     address[] public deployedActions;
 
-    function creatAction(address NTFaddres,string memory _plateID , uint _startPrice,uint _endAt) public {
+    function createAction(address NTFaddres,string memory _plateID , uint _startPrice,uint _endAt) public {
         PlateAuction newAction=new PlateAuction(NTFaddres, _plateID, _startPrice, _endAt,msg.sender);
         deployedActions.push(address(newAction));
     }
 
-    function getDeployedActions()public view returns (address[] memory){
+    function deployedAuctions()public view returns (address[] memory){
         return deployedActions;
     }
 
