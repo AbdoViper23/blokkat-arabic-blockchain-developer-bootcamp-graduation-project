@@ -3,6 +3,7 @@
 import { MintNFT } from "@/components/MintNFT";
 import { SearchNFT } from "@/components/SearchNFT";
 import { Header } from "@/components/Header";
+import {OwnedNFTList} from "@/components/OwnedNFTList";
 
 export default function Home() { 
 
@@ -14,7 +15,8 @@ export default function Home() {
           <SearchNFT />
           <MintNFT />
         </div>
-        {/* Auction Section */}
+        <OwnedNFTList />
+        {/* Auction Section -ToDo [remove and add new Auction page]- */}
         <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
           <div className="bg-gradient-to-r from-emerald-500 to-green-600 p-6">
             <div className="flex items-center justify-between">

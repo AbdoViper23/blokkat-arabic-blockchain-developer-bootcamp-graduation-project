@@ -11,7 +11,7 @@ contract EgyptPlateNFT is ERC721URIStorage {
 
     mapping(string => address) private plateOwner;
     mapping(string => uint) public   plateToID;
-    mapping(address=>uint[]) public owns; /// ToDo handel owner transfer
+    mapping(address=>uint[]) private owns; /// ToDo handel owner transfer
 
     modifier ownerOnly(){
         require(msg.sender==owner);
@@ -42,6 +42,9 @@ contract EgyptPlateNFT is ERC721URIStorage {
     }
     function getPlateId(string memory plate) external view returns (uint) {
         return plateToID[plate];
+    }
+    function getOwnedTokens(address _owner) external view returns (uint[] memory) {
+        return owns[_owner];
     }
 
 }

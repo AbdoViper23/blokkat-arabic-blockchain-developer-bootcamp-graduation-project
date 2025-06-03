@@ -1,7 +1,7 @@
 # ========== Foundry ==========
 /Smart Contracts/out/
 /Smart Contracts/lib/
-
+/Smart Contracts/cache/
 
 # ========== General ==========
 .DS_Store
