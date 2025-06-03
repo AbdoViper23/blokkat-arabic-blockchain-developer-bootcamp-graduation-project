@@ -1,7 +1,7 @@
 "use client";
 
 import {useState } from "react";
-import { useWriteContract, useAccount } from "wagmi";
+import { useWriteContract, useReadContract , useAccount } from "wagmi";
 import { wagmiSolConfig } from "@/lib/wagmiSolConfig";
 
 const arabicToNumber: { [key: string]: number } = {
@@ -20,7 +20,15 @@ export const MintNFT = () =>{
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const [plate, setPlate] = useState("");
+
     const { writeContractAsync } = useWriteContract();
+
+    const { data, refetch }  = useReadContract({
+      ...wagmiSolConfig,
+      functionName:"plateToID",
+      args:[plate]
+    });
 
     const handleMintPlate = async () => {
     
@@ -41,6 +49,15 @@ export const MintNFT = () =>{
 
         const plt: string = letterArray.map(num => num.toString().padStart(2, '0')).join('') + numArray.map(num => num.toString()).join('');
 
+        setPlate(plt);
+        const { data: id } = await refetch();
+        console.log("id is "+id);
+
+        if (id && id !== BigInt(0)) { // cheak if the plate is available
+          alert("Plate is already used before");
+          setIsLoading(false);
+          return;
+        }
 
         const genPic = await fetch('/api/pltPicGen', {
         method: 'POST',
