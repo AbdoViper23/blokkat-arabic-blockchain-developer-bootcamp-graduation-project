@@ -3,17 +3,7 @@
 import { useEffect, useState } from "react";
 import { useReadContract } from "wagmi";
 import { wagmiSolConfig } from "@/lib/wagmiSolConfig";
-import { decodePlateCode } from "@/lib/nftUtils";
-
-interface NFTMetadata {
-  name: string;
-  description: string;
-  image: string;
-  plate_code: string;
-  numbers:string;
-  letters:string;
-}
-
+import { decodePlateCode, NFTMetadata , fetchMetadataFromURI} from "@/lib/nftUtils";
 
 interface NFTCardProps {
   tokenId: string;
@@ -27,24 +17,6 @@ export const NFTCard = ({ tokenId }: NFTCardProps) => {
     functionName: "tokenURI",
     args: [BigInt(tokenId)],
   });
-
- 
-  const fetchMetadataFromURI = async (uri: string): Promise<NFTMetadata | undefined> => {
-    try {
-      if (uri.length === 0) return undefined;
-
-      const response = await fetch(uri);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const metadata = await response.json();
-      return metadata;
-    } catch (error) {
-      console.error(`Error fetching metadata from URI ${uri}:`, error);
-      return undefined;
-    }
-  };
 
   useEffect(() => {
     const loadNFTData = async () => {
@@ -76,8 +48,18 @@ export const NFTCard = ({ tokenId }: NFTCardProps) => {
 
     loadNFTData();
   }, [tokenURI, uriLoading, uriError, tokenId]);
-
-  // Decode raw code to get numbers and letters
+ 
+  if (uriLoading) { // loading form
+    return (
+      <div className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-700 dark:to-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 shadow-lg overflow-hidden">
+        <div className="h-48 bg-gray-300 dark:bg-gray-600 animate-pulse"></div>
+        <div className="p-4">
+          <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded mb-2 animate-pulse"></div>
+          <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-3/4 animate-pulse"></div>
+        </div>
+      </div>
+    );
+  } 
 
   return (
     <div className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-700 dark:to-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">

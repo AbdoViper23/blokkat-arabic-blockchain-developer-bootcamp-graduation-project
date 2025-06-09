@@ -51,3 +51,29 @@ export const encodePlateCode = (plateLetter: string, plateNumber:string):{plt:st
     plt
   };
 }
+
+export interface NFTMetadata {
+  name: string;
+  description: string;
+  image: string;
+  plate_code: string;
+  numbers:string;
+  letters:string;
+}
+
+export const fetchMetadataFromURI = async (uri: string): Promise<NFTMetadata | undefined> => {
+  try {
+    if (uri.length === 0) return undefined;
+
+    const response = await fetch(uri);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const metadata = await response.json();
+    return metadata;
+  } catch (error) {
+    console.error(`Error fetching metadata from URI ${uri}:`, error);
+    return undefined;
+  }
+};
