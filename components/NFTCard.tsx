@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useReadContract } from "wagmi";
 import { wagmiSolConfig } from "@/lib/wagmiSolConfig";
+import { decodePlateCode } from "@/lib/nftUtils";
 
 interface NFTMetadata {
   name: string;
@@ -27,35 +28,7 @@ export const NFTCard = ({ tokenId }: NFTCardProps) => {
     args: [BigInt(tokenId)],
   });
 
-  const decodePlateCode = (plate_code: string): { letters: string; numbers: string } => {
-    const numberToArabic: { [key: string]: string } = {
-      "00": "ا", "01": "ب", "02": "ت", "03": "ث", "04": "ج", "05": "ح", "06": "خ",
-      "07": "د", "08": "ذ", "09": "ر", "10": "ز", "11": "س", "12": "ش",
-      "13": "ص", "14": "ض", "15": "ط", "16": "ظ", "17": "ع", "18": "غ",
-      "19": "ف", "20": "ق", "21": "ك", "22": "ل", "23": "م", "24": "ن",
-      "25": "هـ", "26": "و", "27": "ي", "99": ""
-    };
-
-    if (plate_code.length === 0) {
-      console.log("Empty token ID");
-      return { letters: "", numbers: "" };
-    }
-
-    let letterPart = "";
-    let i = 0;
-    while (i < 6) {
-      const twoDigits = plate_code.substring(i, i + 2);        
-      letterPart += numberToArabic[twoDigits]+" ";
-      i += 2;
-    }
-    const numberPart = plate_code.substring(6);
-
-    return {
-      letters: letterPart.trim(),
-      numbers: numberPart.split('').reverse().join(' ')
-    };
-  };
-
+ 
   const fetchMetadataFromURI = async (uri: string): Promise<NFTMetadata | undefined> => {
     try {
       if (uri.length === 0) return undefined;

@@ -3,14 +3,7 @@
 import {useState } from "react";
 import { useWriteContract, useReadContract , useAccount } from "wagmi";
 import { wagmiSolConfig } from "@/lib/wagmiSolConfig";
-
-const arabicToNumber: { [key: string]: number } = {
-    "ا": 0, "ب": 1, "ت": 2, "ث": 3, "ج": 4, "ح": 5, "خ": 6,
-    "د": 7, "ذ": 8, "ر": 9, "ز": 10, "س": 11, "ش": 12,
-    "ص": 13, "ض": 14, "ط": 15, "ظ": 16, "ع": 17, "غ": 18,
-    "ف": 19, "ق": 20, "ك": 21, "ل": 22, "م": 23, "ن": 24,
-    "هـ": 25, "و": 26, "ي": 27
-  };
+import { encodePlateCode } from "@/lib/nftUtils";
 
 export const MintNFT = () =>{
     const { isConnected, address } = useAccount();
@@ -38,17 +31,7 @@ export const MintNFT = () =>{
         }
 
         setIsLoading(true);
-        let letterArray = plateLetter.replace(/\s+/g, '').split("").map(letter => arabicToNumber[letter]);
-        let numArray = plateNumber.split("").map(char => parseInt(char, 10));
-        numArray.reverse();
-
-        console.log(letterArray);
-        console.log(numArray);
-        while(letterArray.length<3)
-          letterArray.push(99);// skip (empty)
-
-        const plt: string = letterArray.map(num => num.toString().padStart(2, '0')).join('') + numArray.map(num => num.toString()).join('');
-
+        const { letterArray, numArray, plt} = encodePlateCode(plateLetter,plateNumber);
         setPlate(plt);
         const { data: id } = await refetch();
         console.log("id is "+id);

@@ -3,14 +3,8 @@
 import { useState ,useEffect} from "react";
 import { useReadContract } from "wagmi";
 import { wagmiSolConfig } from "@/lib/wagmiSolConfig";
+import { encodePlateCode } from "@/lib/nftUtils";
 
-const arabicToNumber: { [key: string]: number } = {
-    "ا": 0, "ب": 1, "ت": 2, "ث": 3, "ج": 4, "ح": 5, "خ": 6,
-    "د": 7, "ذ": 8, "ر": 9, "ز": 10, "س": 11, "ش": 12,
-    "ص": 13, "ض": 14, "ط": 15, "ظ": 16, "ع": 17, "غ": 18,
-    "ف": 19, "ق": 20, "ك": 21, "ل": 22, "م": 23, "ن": 24,
-    "هـ": 25, "و": 26, "ي": 27
-};
 
 export const SearchNFT = ()=>{
 
@@ -25,27 +19,14 @@ export const SearchNFT = ()=>{
         args:[searchPlate]
         }
     );
-    useEffect(() => {
-      if (plateOwner) 
-        console.log("owner is:", plateOwner);
-    }, [plateOwner]);
-
+    
     const handlePlateSearch =async ()=>{
         if (plateLetterS === "" || plateNumberS === "") {
           alert("you should enter value first");
           return;
         } 
         try{
-
-          let letterArray = plateLetterS.replace(/\s+/g, '').split("").map(letter => arabicToNumber[letter]);
-          let numArray = plateNumberS.split("");
-          numArray.reverse();
-
-          while(letterArray.length<3)
-            letterArray.push(99);// skip (empty)
-
-          const plt: string = letterArray.map(num => num.toString().padStart(2, '0')).join('') + numArray.map(num => num.toString()).join('');
-    
+          const { plt } = encodePlateCode(plateLetterS,plateNumberS); 
           setSearchPlate(plt);
           console.log(plt);
           await refetch();
@@ -55,7 +36,6 @@ export const SearchNFT = ()=>{
             alert("Error");
         }
     }
-    
 
     return(
         <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
