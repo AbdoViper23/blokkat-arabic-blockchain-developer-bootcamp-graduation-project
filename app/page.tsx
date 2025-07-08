@@ -4,6 +4,8 @@ import { MintNFT } from "@/components/MintNFT";
 import { SearchNFT } from "@/components/SearchNFT";
 import { Header } from "@/components/Header";
 import {OwnedNFTList} from "@/components/OwnedNFTList";
+import { useState } from "react";
+import Link from "next/link";
 
 export default function Home() { 
 
@@ -29,9 +31,11 @@ export default function Home() {
                 </h2>
                 <p className="text-emerald-100 text-sm mt-1">Buy and sell exclusive license plates</p>
               </div>
-              <div className="bg-white/20 px-4 py-2 rounded-xl">
-                <span className="text-white text-sm font-medium">Coming Soon</span>
-              </div>
+              <Link href="/auction">
+                <button className="bg-white/20 hover:bg-white/40 text-white text-sm font-bold px-6 py-3 rounded-xl transition-colors border border-white/30 shadow">
+                Go To Auctions
+                </button>
+              </Link>
             </div>
           </div>
           
@@ -44,7 +48,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Auction Platform</h3>
               <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
-                Soon you'll be able to participate in exciting auctions for premium license plate NFTs. 
+                you are able to participate in exciting English auctions for premium license plate NFTs. 
                 Stay tuned for exclusive drops and rare collections!
               </p>
             </div>
