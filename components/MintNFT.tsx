@@ -2,7 +2,7 @@
 
 import {useState } from "react";
 import { useWriteContract, useReadContract , useAccount } from "wagmi";
-import { wagmiSolConfig } from "@/lib/wagmiSolConfig";
+import { nftConfig } from "@/lib/wagmiSolConfig";
 import { encodePlateCode } from "@/lib/nftUtils";
 
 export const MintNFT = () =>{
@@ -18,7 +18,7 @@ export const MintNFT = () =>{
     const { writeContractAsync } = useWriteContract();
 
     const { data, refetch }  = useReadContract({
-      ...wagmiSolConfig,
+      ...nftConfig,
       functionName:"plateToID",
       args:[plate]
     });
@@ -83,7 +83,7 @@ export const MintNFT = () =>{
         
         try {
         const wc = await writeContractAsync({
-            ...wagmiSolConfig,
+            ...nftConfig,
             functionName: "mintPlate",
             args: [address, plt, JsonURI]
         });

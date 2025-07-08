@@ -1,14 +1,14 @@
 "use client";
 
 import { useReadContract, useAccount } from "wagmi";
-import { wagmiSolConfig } from "@/lib/wagmiSolConfig";
+import { nftConfig } from "@/lib/wagmiSolConfig";
 import { NFTCard } from "@/components/NFTCard";
 
 export const OwnedNFTList = () => {
   const { address, isConnected } = useAccount();
 
   const { data: ownedTokenIds, refetch, isLoading: isLoadingTokens } = useReadContract({
-    ...wagmiSolConfig,
+    ...nftConfig,
     functionName: "getOwnedTokens",
     args: address ? [address] : undefined,
   }) as {

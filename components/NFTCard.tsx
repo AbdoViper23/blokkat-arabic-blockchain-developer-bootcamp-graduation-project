@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useReadContract } from "wagmi";
-import { wagmiSolConfig } from "@/lib/wagmiSolConfig";
+import { nftConfig } from "@/lib/wagmiSolConfig";
 import { decodePlateCode, NFTMetadata , fetchMetadataFromURI} from "@/lib/nftUtils";
 
 interface NFTCardProps {
@@ -13,7 +13,7 @@ export const NFTCard = ({ tokenId }: NFTCardProps) => {
   const [nftData, setNftData] = useState<NFTMetadata>();
 
   const { data: tokenURI, isLoading: uriLoading, error: uriError } = useReadContract({
-    ...wagmiSolConfig,
+    ...nftConfig,
     functionName: "tokenURI",
     args: [BigInt(tokenId)],
   });

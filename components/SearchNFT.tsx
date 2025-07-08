@@ -2,7 +2,7 @@
 
 import { useState ,useEffect} from "react";
 import { useReadContract } from "wagmi";
-import { wagmiSolConfig } from "@/lib/wagmiSolConfig";
+import { nftConfig } from "@/lib/wagmiSolConfig";
 import { encodePlateCode } from "@/lib/nftUtils";
 
 
@@ -14,7 +14,7 @@ export const SearchNFT = ()=>{
     const [plateNumberS, setPlateNumberS] = useState("");
     
     const { data:plateOwner , isLoading:notFinished , refetch }  = useReadContract({
-        ...wagmiSolConfig,
+        ...nftConfig,
         functionName:"owner_of",
         args:[searchPlate]
         }
